@@ -2,7 +2,7 @@ use std::collections::VecDeque;
 use std::io::Error;
 
 use core::constants::{CPU_CYCLES_PER_TIMER_CYCLE, MAX_SAVED_STATES};
-use core::instruction::Instruction;
+use core::instruction;
 use core::state::{FrameBuffer, State};
 
 /// # Chip-8
@@ -78,7 +78,7 @@ impl Chip8 {
     pub fn advance_cpu(&mut self) {
         if self.state.register_needing_key == None {
             let op: u16 = self.get_op();
-            self.state = Instruction::from_op(&op).execute(&op, &self.state, self.pressed_keys);
+            self.state = instruction::instruction(&op)(&op, &self.state, self.pressed_keys);
         };
         self.save_state();
     }

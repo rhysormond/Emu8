@@ -78,7 +78,7 @@ impl Chip8 {
     pub fn advance_cpu(&mut self) {
         if self.state.register_needing_key == None {
             let op: u16 = self.get_op();
-            self.state = instruction::instruction(&op)(&op, &self.state, self.pressed_keys);
+            self.state = instruction::execute(&op, &self.state, self.pressed_keys);
         };
         self.save_state();
     }

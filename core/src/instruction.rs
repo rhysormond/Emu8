@@ -3,8 +3,8 @@ use crate::opcode::Opcode;
 use crate::state::State;
 
 /// Selects the correct Instruction for a given Opcode
-pub fn instruction(op: &dyn Opcode) -> fn(&dyn Opcode, &State, [u8; 16]) -> State {
-    match op.nibbles() {
+pub fn execute(op: &dyn Opcode, state: &State, pressed_keys: [u8; 16]) -> State {
+    let instruction = match op.nibbles() {
         (0x0, 0x0, 0xE, 0x0) => clr,
         (0x0, 0x0, 0xE, 0xE) => rts,
         (0x1, ..) => jump,
@@ -40,7 +40,8 @@ pub fn instruction(op: &dyn Opcode) -> fn(&dyn Opcode, &State, [u8; 16]) -> Stat
         (0xF, .., 0x5, 0x5) => stor,
         (0xF, .., 0x6, 0x5) => read,
         other => panic!("Opcode {:?} is not implemented", other),
-    }
+    };
+    instruction(op, state, pressed_keys)
 }
 
 /// clear

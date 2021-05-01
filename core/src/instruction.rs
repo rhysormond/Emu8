@@ -1,5 +1,5 @@
+use crate::instructions::*;
 use crate::opcode::Opcode;
-use crate::operations::*;
 use crate::state::State;
 
 /// Selects the correct Instruction for a given Opcode
